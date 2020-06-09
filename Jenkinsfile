@@ -36,7 +36,7 @@ pipeline {
       }
 
     }  
-    stage('Run Application') {
+    stage('Run the node Application') {
 
       steps {
 
