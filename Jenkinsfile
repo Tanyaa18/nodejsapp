@@ -10,7 +10,7 @@ node {
   } else if (env.BRANCH_NAME.startsWith("Release_")) {
    echo "Deploying to Stage after build and Dev Deployment"
   } else if (env.BRANCH_NAME.startsWith("master")) {
-   echo "Deploying to PROD environment"
+   echo "Deploying to PROD environment with no downtime"
   }
 feature
  
