@@ -1,21 +1,50 @@
-node {
- stage('checkout') {
-  checkout scm
- }
- stage('deploy') {
-  echo 'branch name ' + env.BRANCH_NAME
- 
-  if (env.BRANCH_NAME.startsWith("Feature_")) {
-   echo "Deploying to Dev environment after build"
-  } else if (env.BRANCH_NAME.startsWith("Release_")) {
-   echo "Deploying to Stage after build and Dev Deployment"
-  } else if (env.BRANCH_NAME.startsWith("master")) {
-   echo "Deploying to PROD environment with no downtime"
-  }
+pipeline { 
+    agent { label 'master' }
+    environment{
+        deployment_skipped = 'true'
+    }
+    tools {
+        nodejs "node"
+    }
+    options{
+        timestamps()
+    }
+    stages {
+            //Cleaning the workspace
+        stage('Clean Workspace'){
+                steps {
+                    deleteDir()
+                }
+        }   
+            //Checking out Source Code
+            stage('Checkout SCM'){
+                steps {
+                checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'Tanyaa18', url: 'https://github.com/Tanyaa18/nodejsapp.git']]])
+              
+                
+                }    
+            }    
+            
+    stage('Build') {
 
- 
- 
- }
+      steps {
 
+        bat 'npm install'
 
- }
+         
+
+      }
+
+    }  
+    stage('Run Application') {
+
+      steps {
+
+        bat 'node index.js'
+
+      }
+
+    }
+       }
+  
+ }    
