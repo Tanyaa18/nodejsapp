@@ -12,10 +12,10 @@ node {
   } else if (env.BRANCH_NAME.startsWith("master")) {
    echo "Deploying to PROD environment with no downtime"
   }
-feature
+
  
  
  }
 
- release1
+
  }
